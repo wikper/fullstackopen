@@ -3,7 +3,11 @@ const Header = ({ course }) => {
 }
 
 const Part = ({ part, exercises }) => {
-  return <p>{part} {exercises}</p>
+  return (
+    <p>
+      {part} {exercises}
+    </p>
+  )
 }
 
 const Content = ({ parts }) => {
@@ -26,16 +30,16 @@ const App = () => {
   const parts = [
     {
       name: 'Fundamentals of React',
-      exercises: 10
+      exercises: 10,
     },
     {
       name: 'Using props to pass data',
-      exercises: 7
+      exercises: 7,
     },
     {
       name: 'State of a component',
-      exercises: 14
-    }
+      exercises: 14,
+    },
   ]
 
   return (
