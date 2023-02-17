@@ -64,3 +64,18 @@ server-->>browser: [{"content":"DWQdq","date":"2023-02-09T05:34:13.641Z"},{"cont
 deactivate server
 Note over browser: The browser executes event handler that renders notes to display.
 ```
+
+## New note in single page app diagram
+
+```mermaid
+sequenceDiagram
+    participant browser
+    participant server
+
+Note over browser: User clicks button.
+Note over browser: Event handler creates a new note, adds it to the list, renders list on the page and sends new note to the server.
+browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+activate server
+server-->>browser: status 201 created and JSON file
+deactivate server
+```
