@@ -19,10 +19,30 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const nameExists = persons.some((person) => {
-      return person.name === newName
-    })
-    if (!nameExists) {
+    if (
+      persons.find(
+        (person) => person.name.toLowerCase() === newName.toLowerCase()
+      )
+    ) {
+      const person = persons.find(
+        (person) => person.name.toLowerCase() === newName.toLowerCase()
+      )
+      if (
+        window.confirm(
+          `${person.name} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        personService
+          .update(person.id, { ...person, number: newNumber })
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id === returnedPerson.id ? returnedPerson : person
+              )
+            )
+          })
+      }
+    } else {
       const personObject = {
         name: newName,
         number: newNumber,
@@ -30,10 +50,8 @@ const App = () => {
       personService.create(personObject).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
-        setNewName('')
+        setNewNumber('')
       })
-    } else {
-      alert(`${newName} is already added to phonebook`)
     }
   }
 
