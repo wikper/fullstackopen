@@ -50,6 +50,17 @@ const App = () => {
               setNotificationMessage(null)
             }, 3000)
           })
+          .catch(() => {
+            setPersons(persons.filter((p) => p.id !== person.id))
+            setNotificationMessage(
+              `Information of ${person.name} has already been removed from server`
+            )
+            setNotificationType('error')
+            setTimeout(() => {
+              setNotificationMessage(null)
+              setNotificationType(null)
+            }, 3000)
+          })
       }
     } else {
       const personObject = {
@@ -70,13 +81,26 @@ const App = () => {
 
   const deletePerson = (person) => {
     if (window.confirm(`Delete ${person.name}?`)) {
-      personService.remove(person.id).then(() => {
-        setPersons(persons.filter((p) => p.id !== person.id))
-        setNotificationMessage(`Deleted ${person.name}`)
-        setTimeout(() => {
-          setNotificationMessage(null)
-        }, 3000)
-      })
+      personService
+        .remove(person.id)
+        .then(() => {
+          setPersons(persons.filter((p) => p.id !== person.id))
+          setNotificationMessage(`Deleted ${person.name}`)
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 3000)
+        })
+        .catch(() => {
+          setPersons(persons.filter((p) => p.id !== person.id))
+          setNotificationMessage(
+            `Information of ${person.name} has already been removed from server`
+          )
+          setNotificationType('error')
+          setTimeout(() => {
+            setNotificationMessage(null)
+            setNotificationType(null)
+          }, 3000)
+        })
     }
   }
 
