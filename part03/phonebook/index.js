@@ -1,6 +1,10 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const app = express()
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 let persons = [
   {
@@ -24,6 +28,10 @@ let persons = [
     number: '39-23-6423122',
   },
 ]
+
+const generateId = () => {
+  return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+}
 
 app.get('/info', (request, response) => {
   const date = new Date()
@@ -59,6 +67,17 @@ app.delete('/api/persons/:id', (request, response) => {
   } else {
     response.status(404).end()
   }
+})
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+  const person = {
+    id: generateId(),
+    name: body.name,
+    number: body.number,
+  }
+  persons = persons.concat(person)
+  response.json(person)
 })
 
 const PORT = 3001
