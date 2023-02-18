@@ -5,9 +5,15 @@ import Countries from './components/Countries'
 function App() {
   const [countries, setCountries] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedCountry, setSelectedCountry] = useState(null)
 
   const handleSearchQuery = (event) => {
     setSearchQuery(event.target.value)
+    setSelectedCountry(null)
+  }
+
+  const handleSelectedCountry = (country) => {
+    setSelectedCountry(country)
   }
 
   useEffect(() => {
@@ -22,7 +28,12 @@ function App() {
         find countries{' '}
         <input value={searchQuery} onChange={handleSearchQuery} />
       </div>
-      <Countries countries={countries} searchQuery={searchQuery} />
+      <Countries
+        countries={countries}
+        searchQuery={searchQuery}
+        selectedCountry={selectedCountry}
+        handleSelectedCountry={handleSelectedCountry}
+      />
     </div>
   )
 }
