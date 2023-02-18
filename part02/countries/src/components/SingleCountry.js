@@ -1,3 +1,5 @@
+import Weather from './Weather'
+
 const SingleCountry = ({ country }) => {
   const languages = Object.values(country.languages)
 
@@ -5,7 +7,7 @@ const SingleCountry = ({ country }) => {
     <div>
       <h2>{country.name.common}</h2>
       <p>
-        capital {country.capital}
+        capital {country.capital[0]}
         <br />
         area {country.area}
       </p>
@@ -22,6 +24,7 @@ const SingleCountry = ({ country }) => {
         alt={`${country.name.common} flag`}
         style={{ width: '140px' }}
       />
+      <Weather capital={country.capital[0]} />
     </div>
   )
 }
