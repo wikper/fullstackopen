@@ -51,13 +51,13 @@ const App = () => {
             }, 3000)
           })
           .catch((error) => {
-            if (error.name === 'ValidationError') {
-              setNotificationMessage(error.response.data.error)
-            } else {
+            if (error.name === 'TypeError') {
               setPersons(persons.filter((p) => p.id !== person.id))
               setNotificationMessage(
                 `Information of ${person.name} has already been removed from server`
               )
+            } else {
+              setNotificationMessage(error.response.data.error)
             }
             setNotificationType('error')
             setTimeout(() => {
