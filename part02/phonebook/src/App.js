@@ -50,11 +50,15 @@ const App = () => {
               setNotificationMessage(null)
             }, 3000)
           })
-          .catch(() => {
-            setPersons(persons.filter((p) => p.id !== person.id))
-            setNotificationMessage(
-              `Information of ${person.name} has already been removed from server`
-            )
+          .catch((error) => {
+            if (error.name === 'ValidationError') {
+              setNotificationMessage(error.response.data.error)
+            } else {
+              setPersons(persons.filter((p) => p.id !== person.id))
+              setNotificationMessage(
+                `Information of ${person.name} has already been removed from server`
+              )
+            }
             setNotificationType('error')
             setTimeout(() => {
               setNotificationMessage(null)
@@ -67,15 +71,25 @@ const App = () => {
         name: newName,
         number: newNumber,
       }
-      personService.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson))
-        setNotificationMessage(`Added ${returnedPerson.name}`)
-        setTimeout(() => {
-          setNotificationMessage(null)
-        }, 3000)
-        setNewName('')
-        setNewNumber('')
-      })
+      personService
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson))
+          setNotificationMessage(`Added ${returnedPerson.name}`)
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 3000)
+          setNewName('')
+          setNewNumber('')
+        })
+        .catch((error) => {
+          setNotificationMessage(error.response.data.error)
+          setNotificationType('error')
+          setTimeout(() => {
+            setNotificationMessage(null)
+            setNotificationType(null)
+          }, 3000)
+        })
     }
   }
 
