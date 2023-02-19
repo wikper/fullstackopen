@@ -75,14 +75,9 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = persons.find((person) => person.id === id)
-  if (person) {
-    persons = persons.filter((p) => p !== person)
+  Person.findByIdAndRemove(request.params.id).then((result) => {
     response.status(204).end()
-  } else {
-    response.status(404).end()
-  }
+  })
 })
 
 app.post('/api/persons', (request, response) => {
